@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://hmig3hy85opl"]
+
+[ext_resource type="PackedScene" uid="uid://brlvsjuvetxc4" path="res://player/player.tscn" id="1_b0cki"]
+[ext_resource type="Script" path="res://main/Main.cs" id="1_j00m8"]
+[ext_resource type="PackedScene" uid="uid://j3vc31ypbekj" path="res://enemies/mob.tscn" id="2_c6b8u"]
+[ext_resource type="PackedScene" uid="uid://8fdg03mvtnvf" path="res://HUD/hud.tscn" id="4_dnoqi"]
+
+[sub_resource type="Curve2D" id="Curve2D_mscgv"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -352, -187.973, 0, 0, 0, 0, 672, -187.973, 0, 0, 0, 0, 672, 416.027, 0, 0, 0, 0, -352, 412.027, 0, 0, 0, 0, -352, -187.973)
+}
+point_count = 5
+
+[node name="Main" type="Node"]
+script = ExtResource("1_j00m8")
+MobScene = ExtResource("2_c6b8u")
+
+[node name="MobPath" type="Path2D" parent="."]
+position = Vector2(640, 303.945)
+scale = Vector2(2, 2)
+curve = SubResource("Curve2D_mscgv")
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+position = Vector2(-352, -187.973)
+rotates = false
+
+[node name="Player" parent="." instance=ExtResource("1_b0cki")]
+position = Vector2(960, 544)
+
+[node name="Path Location" type="RemoteTransform2D" parent="Player"]
+position = Vector2(-320, -240.055)
+remote_path = NodePath("../../MobPath")
+update_rotation = false
+update_scale = false
+
+[node name="Camera2D2" type="Camera2D" parent="Player"]
+position_smoothing_enabled = true
+position_smoothing_speed = 20.0
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="StartTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(960, 544)
+
+[node name="HUD" parent="." instance=ExtResource("4_dnoqi")]
+offset = Vector2(575, 330)
+transform = Transform2D(1, 0, 0, 1, 575, 330)
+
+[node name="RunTimer" type="Timer" parent="."]
+
+[connection signal="Hit" from="Player" to="." method="GameOver"]

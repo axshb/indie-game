@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://j3vc31ypbekj"]
+
+[ext_resource type="Script" path="res://enemies/Mob.cs" id="1_n4ydi"]
+[ext_resource type="Texture2D" uid="uid://dd6sg6plbalau" path="res://enemies/enemytemp.png" id="1_ud7jv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vvga8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ud7jv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p1hih"]
+size = Vector2(44, 45)
+
+[node name="Mob" type="RigidBody2D" groups=["mobs"]]
+gravity_scale = 0.0
+script = ExtResource("1_n4ydi")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("SpriteFrames_vvga8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_p1hih")
