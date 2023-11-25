@@ -1,19 +1,19 @@
 [gd_scene load_steps=3 format=3 uid="uid://8fdg03mvtnvf"]
 
-[ext_resource type="Script" path="res://HUD/HUD.cs" id="1_gi031"]
-[ext_resource type="FontFile" uid="uid://cuorr1pp1prmt" path="res://fonts/Xolonium-Regular.ttf" id="1_ytq7c"]
+[ext_resource type="Script" path="res://root/HUD/HUD.cs" id="1_5l1gd"]
+[ext_resource type="FontFile" uid="uid://cuorr1pp1prmt" path="res://root/fonts/Xolonium-Regular.ttf" id="2_4ty11"]
 
 [node name="HUD" type="CanvasLayer"]
 offset = Vector2(-160, -112)
 transform = Transform2D(1, 0, 0, 1, -160, -112)
-script = ExtResource("1_gi031")
+script = ExtResource("1_5l1gd")
 
 [node name="ScoreLabel" type="Label" parent="."]
 offset_left = 368.0
 offset_top = 344.0
 offset_right = 408.0
 offset_bottom = 422.0
-theme_override_fonts/font = ExtResource("1_ytq7c")
+theme_override_fonts/font = ExtResource("2_4ty11")
 theme_override_font_sizes/font_size = 64
 
 [node name="Message" type="Label" parent="."]
@@ -21,7 +21,7 @@ offset_left = 160.0
 offset_top = 112.0
 offset_right = 629.0
 offset_bottom = 193.0
-theme_override_fonts/font = ExtResource("1_ytq7c")
+theme_override_fonts/font = ExtResource("2_4ty11")
 theme_override_font_sizes/font_size = 64
 text = "don't die lmao"
 horizontal_alignment = 1
@@ -32,7 +32,7 @@ offset_left = 304.0
 offset_top = 190.0
 offset_right = 470.0
 offset_bottom = 276.0
-theme_override_fonts/font = ExtResource("1_ytq7c")
+theme_override_fonts/font = ExtResource("2_4ty11")
 theme_override_font_sizes/font_size = 64
 text = "start"
 

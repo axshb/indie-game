@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dodvy8lo1sjvq"
-path="res://.godot/imported/playertemp.png-52843e6b6ddc8dcbf3a21e13370a5da3.ctex"
+uid="uid://cy4ckbfnf7ml3"
+path="res://.godot/imported/templightning.png-a907994bf7216846e6323ef1b1c39e38.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/playertemp.png"
-dest_files=["res://.godot/imported/playertemp.png-52843e6b6ddc8dcbf3a21e13370a5da3.ctex"]
+source_file="res://root/art/tiles/templightning.png"
+dest_files=["res://.godot/imported/templightning.png-a907994bf7216846e6323ef1b1c39e38.ctex"]
 
 [params]
 

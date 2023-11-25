@@ -1,13 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://j3vc31ypbekj"]
+[gd_scene load_steps=6 format=3 uid="uid://j3vc31ypbekj"]
 
-[ext_resource type="Script" path="res://enemies/Mob.cs" id="1_n4ydi"]
-[ext_resource type="Texture2D" uid="uid://dd6sg6plbalau" path="res://enemies/enemytemp.png" id="1_ud7jv"]
+[ext_resource type="Script" path="res://root/enemies/Mob.cs" id="1_cdwyc"]
+[ext_resource type="Texture2D" uid="uid://dd6sg6plbalau" path="res://root/enemies/enemytemp.png" id="2_vb1qx"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uf74f"]
+light_mode = 2
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vvga8"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_ud7jv")
+"texture": ExtResource("2_vb1qx")
 }],
 "loop": true,
 "name": &"default",
@@ -15,16 +18,16 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1hih"]
-size = Vector2(44, 45)
+size = Vector2(44, 44)
 
 [node name="Mob" type="RigidBody2D" groups=["mobs"]]
 gravity_scale = 0.0
-script = ExtResource("1_n4ydi")
+script = ExtResource("1_cdwyc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_uf74f")
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_vvga8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_p1hih")

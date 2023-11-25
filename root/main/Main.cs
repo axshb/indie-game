@@ -11,7 +11,17 @@ public partial class Main : Node
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
+		Callable mobTimerCallout = new Callable(this, MethodName._OnMobTimerTimeout);
+		Callable scoreTimerCallout = new Callable(this, MethodName._OnScoreTimerTimeout);
+		
+		Timer mobTimer = GetNode<Timer>("MobTimer");
+		mobTimer.Connect("timeout", mobTimerCallout);
+		
+		Timer scoreTimer = GetNode<Timer>("ScoreTimer");
+		scoreTimer.Connect("timeout", scoreTimerCallout);
+		
 		GetNode<HUD>("HUD").StartGame += OnStartGame;
+		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -20,8 +30,16 @@ public partial class Main : Node
 	
 	// Called when game ends to player death
 	private void GameOver() {
-		GetNode<Timer>("MobTimer").Stop();
-		GetNode<Timer>("ScoreTimer").Stop();
+		
+		// Reset game state
+		var gameVariables = GetNode<GameVariables>("/root/GameVariables");
+		gameVariables.ResetGameState();
+		
+		// Reset current scene
+		GetTree().ReloadCurrentScene(); // TO DO: show game over then reload scene
+		
+		//GetNode<Timer>("MobTimer").Stop();
+		//GetNode<Timer>("ScoreTimer").Stop();
 		GetNode<HUD>("HUD").ShowGameOver();
 	}
 	
@@ -47,7 +65,7 @@ public partial class Main : Node
 	
 	// Called at the very start, on launch. Sets HUD and launches NewGame()
 	private void OnStartGame() {
-		GD.Print("Start"); //to do
+		
 		var hud = GetNode<HUD>("HUD");
 		hud.UpdateScore(_score);
 		hud.ShowMessage("prepare urself");
@@ -69,26 +87,34 @@ public partial class Main : Node
 	
 	// When the initial timer ends, begin the game. 
 	private void OnStartTimerTimeout() {
-		// when the mob timer times out, start OnMobTimerTimeout
-		GetNode<Timer>("MobTimer").Start();
-		GetNode<Timer>("MobTimer").Timeout += OnMobTimerTimeout;
+		Callable callable = new Callable(this, MethodName.OnStartTimerTimeout);
 		
-		// when the score timer times out, start OnScoreTimerTimeout
-		GetNode<Timer>("ScoreTimer").Start();
-		GetNode<Timer>("ScoreTimer").Timeout += OnScoreTimerTimeout;
+		Timer mobTimer = GetNode<Timer>("MobTimer");
+		mobTimer.Start();
+		
+		Timer scoreTimer = GetNode<Timer>("ScoreTimer");
+		scoreTimer.Start();
+		
+	}
+	
+	private void _OnMobTimerTimeout() {
+		OnMobTimerTimeout();
+	}
+
+	private void _OnScoreTimerTimeout() {
+		OnScoreTimerTimeout();
 	}
 	
 	// Occurs every increment set by GameVariables.AddSecond() to spawn mobs
 	private void OnMobTimerTimeout() {
 		
 		var mobSpawnLocation = GetNode<PathFollow2D>("MobPath/MobSpawnLocation");
-		Vector2 playerPosition = GetNode<Area2D>("Player").Position;
+		Vector2 playerPosition = GetNode<CharacterBody2D>("Player").Position;
 		
 		var gameVariables = GetNode<GameVariables>("/root/GameVariables");
 		int spawnCount = gameVariables.GetSpawnCount();
 		
 		for (int i = 0; i < spawnCount; i++){
-			
 			// Create a new instance of the Mob scene.
 			Mob mob = MobScene.Instantiate<Mob>();
 			

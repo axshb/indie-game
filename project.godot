@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="roguelite bullethell"
-run/main_scene="res://main/main.tscn"
+run/main_scene="res://root/main/main.tscn"
 config/features=PackedStringArray("4.1", "C#", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
-PlayerVariables="*res://PlayerVariables.cs"
-GameVariables="*res://GameVariables.cs"
+PlayerVariables="*res://root/global/PlayerVariables.cs"
+GameVariables="*res://root/global/GameVariables.cs"
 
 [display]
 
@@ -57,4 +57,5 @@ move_right={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"

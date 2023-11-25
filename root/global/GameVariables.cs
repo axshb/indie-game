@@ -36,15 +36,21 @@ public partial class GameVariables : Node
 		Random rand = new Random();
 		// choose a random number between the minimum spawn count and it +3
 		int chosenCount = rand.Next(SPAWN_COUNT, SPAWN_COUNT + 3); 
-		GD.Print(chosenCount);
 		return chosenCount;
+	}
+	
+	public void ResetGameState(){
+		SPAWN_COUNT = 1;
+		GetNode<Timer>("/root/Main/MobTimer").WaitTime = 3;
+		GetTree().ReloadCurrentScene();
 	}
 	
 	// Handles enemy spawn rate adjustments via an internal timer
 	public void AddSecond() {
 		_seconds++;
 		GetSpawnCount();
-		
+		//GD.Print(SPAWN_COUNT + " spawncoutn");
+		//GD.Print(GetNode<Timer>("/root/Main/MobTimer").WaitTime + " waittime");
 		// Every INCREMENT_INTERVAL seocnds, increase the spawn rate of the enemies
 		if (_seconds % INCREMENT_INTERVAL == 0){
 			

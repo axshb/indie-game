@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Player : Area2D {
+public partial class Player : CharacterBody2D {
 
 
 	[Signal]
@@ -56,7 +56,8 @@ public partial class Player : Area2D {
 			animatedSprite2D.Stop();
 		}
 
-		Position += velocity * (float)delta;
+		//Position += velocity * (float)delta;
+		MoveAndCollide(velocity * (float)delta);
 
 		// TO DO: use this when selecting animations
 
@@ -75,11 +76,13 @@ public partial class Player : Area2D {
 
 	}
 
-	private void _on_body_entered(Node2D body) {
-		Hide(); // Player disappears after being hit.
-		EmitSignal(SignalName.Hit);
-		// Must be deferred as we can't change physics properties on a physics callback.
-		GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+	private void _on_area_2d_body_entered(Node2D body) {
+		if (body.GetType() == typeof(Mob)){
+			Hide(); // Player disappears after being hit.
+			EmitSignal(SignalName.Hit);
+			// Must be deferred as we can't change physics properties on a physics callback.
+			GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+		}
 	}
 
 	public void Start(Vector2 position) {
@@ -88,5 +91,3 @@ public partial class Player : Area2D {
 		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
 	}
 }
-
-

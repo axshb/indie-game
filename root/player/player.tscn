@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://brlvsjuvetxc4"]
+
+[ext_resource type="Script" path="res://root/player/Player.cs" id="1_1i552"]
+[ext_resource type="Texture2D" uid="uid://dodvy8lo1sjvq" path="res://root/player/playertemp.png" id="2_hortd"]
+[ext_resource type="Texture2D" uid="uid://wra58o16m14b" path="res://root/art/light.png" id="3_fmkx2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_30lnk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hortd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aj50b"]
+size = Vector2(40, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4y8se"]
+size = Vector2(40, 40)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_1i552")
+Speed = 150
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("SpriteFrames_30lnk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_aj50b")
+
+[node name="EnemyCollisions" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyCollisions"]
+shape = SubResource("RectangleShape2D_4y8se")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+energy = 0.0
+range_z_min = -2048
+range_z_max = 2048
+texture = ExtResource("3_fmkx2")
+texture_scale = 2.0
+
+[connection signal="body_entered" from="EnemyCollisions" to="." method="_on_area_2d_body_entered"]

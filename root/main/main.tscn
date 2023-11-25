@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://hmig3hy85opl"]
+[gd_scene load_steps=7 format=3 uid="uid://hmig3hy85opl"]
 
-[ext_resource type="PackedScene" uid="uid://brlvsjuvetxc4" path="res://player/player.tscn" id="1_b0cki"]
-[ext_resource type="Script" path="res://main/Main.cs" id="1_j00m8"]
-[ext_resource type="PackedScene" uid="uid://j3vc31ypbekj" path="res://enemies/mob.tscn" id="2_c6b8u"]
-[ext_resource type="PackedScene" uid="uid://8fdg03mvtnvf" path="res://HUD/hud.tscn" id="4_dnoqi"]
+[ext_resource type="Script" path="res://root/main/Main.cs" id="1_v3jem"]
+[ext_resource type="PackedScene" uid="uid://j3vc31ypbekj" path="res://root/enemies/mob.tscn" id="2_06hj1"]
+[ext_resource type="PackedScene" uid="uid://brlvsjuvetxc4" path="res://root/player/player.tscn" id="3_7qwcw"]
+[ext_resource type="PackedScene" uid="uid://8fdg03mvtnvf" path="res://root/HUD/hud.tscn" id="4_jof1a"]
+[ext_resource type="PackedScene" uid="uid://ewvqbhjmnefv" path="res://root/tilemap/tilemap.tscn" id="5_dbnea"]
 
 [sub_resource type="Curve2D" id="Curve2D_mscgv"]
 _data = {
@@ -12,8 +13,20 @@ _data = {
 point_count = 5
 
 [node name="Main" type="Node"]
-script = ExtResource("1_j00m8")
-MobScene = ExtResource("2_c6b8u")
+script = ExtResource("1_v3jem")
+MobScene = ExtResource("2_06hj1")
+
+[node name="BG" type="Node2D" parent="."]
+position = Vector2(0, 3)
+
+[node name="ColorRect" type="ColorRect" parent="BG"]
+offset_left = -64.0
+offset_top = -75.0
+offset_right = 1984.0
+offset_bottom = 1133.0
+color = Color(0.027451, 0.027451, 0.027451, 1)
+
+[node name="TileMap" parent="." instance=ExtResource("5_dbnea")]
 
 [node name="MobPath" type="Path2D" parent="."]
 position = Vector2(640, 303.945)
@@ -24,7 +37,7 @@ curve = SubResource("Curve2D_mscgv")
 position = Vector2(-352, -187.973)
 rotates = false
 
-[node name="Player" parent="." instance=ExtResource("1_b0cki")]
+[node name="Player" parent="." instance=ExtResource("3_7qwcw")]
 position = Vector2(960, 544)
 
 [node name="Path Location" type="RemoteTransform2D" parent="Player"]
@@ -37,9 +50,12 @@ update_scale = false
 position_smoothing_enabled = true
 position_smoothing_speed = 20.0
 
+[node name="BGFollow" type="RemoteTransform2D" parent="Player"]
+position = Vector2(-960, -541)
+remote_path = NodePath("../../BG")
+
 [node name="MobTimer" type="Timer" parent="."]
 wait_time = 3.0
-autostart = true
 
 [node name="ScoreTimer" type="Timer" parent="."]
 
@@ -49,7 +65,7 @@ one_shot = true
 [node name="StartPosition" type="Marker2D" parent="."]
 position = Vector2(960, 544)
 
-[node name="HUD" parent="." instance=ExtResource("4_dnoqi")]
+[node name="HUD" parent="." instance=ExtResource("4_jof1a")]
 offset = Vector2(575, 330)
 transform = Transform2D(1, 0, 0, 1, 575, 330)
 

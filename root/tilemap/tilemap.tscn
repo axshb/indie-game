@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://ewvqbhjmnefv"]
+
+[ext_resource type="TileSet" uid="uid://dvodkeocv07gf" path="res://root/tilemap/tilemap.tres" id="1_iwao2"]
+[ext_resource type="Script" path="res://root/tilemap/Tilemap.cs" id="2_ck8ym"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pkkfx"]
+light_mode = 2
+
+[node name="TileMap" type="TileMap"]
+material = SubResource("CanvasItemMaterial_pkkfx")
+scale = Vector2(4, 4)
+tile_set = ExtResource("1_iwao2")
+format = 2
+script = ExtResource("2_ck8ym")

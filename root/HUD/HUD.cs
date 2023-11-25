@@ -26,7 +26,7 @@ public partial class HUD : CanvasLayer
 	}
 	
 	async public void ShowGameOver() {
-		ShowMessage("ur dogshit lmao");
+		ShowMessage("you died");
 
 		var messageTimer = GetNode<Timer>("MessageTimer");
 		await ToSignal(messageTimer, Timer.SignalName.Timeout);
