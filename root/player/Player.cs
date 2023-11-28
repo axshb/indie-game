@@ -8,7 +8,12 @@ public partial class Player : CharacterBody2D {
 	public delegate void HitEventHandler();
 	
 	[Export]
-	public int Speed {get; set;} = 50; // How fast the player will move (pixels/sec)
+	public int Speed {get; set;} = 350; // How fast the player will move (pixels/sec)
+	
+	[Export]
+	public int dashSpeedAdd = 350;
+	
+	private bool canDash = true;
 
 	public Vector2 ScreenSize; // Size of the game window
 	
@@ -17,6 +22,10 @@ public partial class Player : CharacterBody2D {
 
 		ScreenSize = GetViewportRect().Size;
 		Hide();
+		
+		Callable dashTimerCallout = new Callable(this, MethodName.OnDashTimerTimeout);
+		Timer dashTimer = GetNode<Timer>("DashTimer");
+		dashTimer.Connect("timeout", dashTimerCallout);
 
 	}
 
@@ -56,8 +65,13 @@ public partial class Player : CharacterBody2D {
 			animatedSprite2D.Stop();
 		}
 
-		//Position += velocity * (float)delta;
 		MoveAndCollide(velocity * (float)delta);
+		if (Input.IsActionJustPressed("dash") && canDash){
+			GetNode<Timer>("DashTimer").Start();
+			this.Speed = Speed + dashSpeedAdd;
+			canDash = false;
+			//velocity = new Vector2(dashSpeed * mouseDir.X, DASH_SPEED * mouseDir.Y);
+		}
 
 		// TO DO: use this when selecting animations
 
@@ -74,6 +88,11 @@ public partial class Player : CharacterBody2D {
 		}
 		*/
 
+	}
+	
+	private void OnDashTimerTimeout(){
+		this.Speed = 350;
+		canDash = true;
 	}
 
 	private void _on_area_2d_body_entered(Node2D body) {

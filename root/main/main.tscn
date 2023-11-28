@@ -24,7 +24,7 @@ offset_left = -64.0
 offset_top = -75.0
 offset_right = 1984.0
 offset_bottom = 1133.0
-color = Color(0.027451, 0.027451, 0.027451, 1)
+color = Color(0.635294, 0.180392, 0.223529, 1)
 
 [node name="TileMap" parent="." instance=ExtResource("5_dbnea")]
 
@@ -40,13 +40,14 @@ rotates = false
 [node name="Player" parent="." instance=ExtResource("3_7qwcw")]
 position = Vector2(960, 544)
 
-[node name="Path Location" type="RemoteTransform2D" parent="Player"]
+[node name="MobPath Location" type="RemoteTransform2D" parent="Player"]
 position = Vector2(-320, -240.055)
 remote_path = NodePath("../../MobPath")
 update_rotation = false
 update_scale = false
 
 [node name="Camera2D2" type="Camera2D" parent="Player"]
+zoom = Vector2(1.2, 1.2)
 position_smoothing_enabled = true
 position_smoothing_speed = 20.0
 
@@ -70,5 +71,9 @@ offset = Vector2(575, 330)
 transform = Transform2D(1, 0, 0, 1, 575, 330)
 
 [node name="RunTimer" type="Timer" parent="."]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
+color = Color(0.647059, 0.647059, 0.647059, 1)
 
 [connection signal="Hit" from="Player" to="." method="GameOver"]

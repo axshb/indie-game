@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cny6qwk86bbp6"
-path="res://.godot/imported/ground.png-032c4bace44ba448e54527638c1fb391.ctex"
+uid="uid://dxltxdjbq0oa"
+path="res://.godot/imported/dagger bot.png-3b9e965c6bbf2631c8774ea136ad7d97.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/art/tiles/ground.png"
-dest_files=["res://.godot/imported/ground.png-032c4bace44ba448e54527638c1fb391.ctex"]
+source_file="res://root/art/sprite sheets/dagger bot.png"
+dest_files=["res://.godot/imported/dagger bot.png-3b9e965c6bbf2631c8774ea136ad7d97.ctex"]
 
 [params]
 

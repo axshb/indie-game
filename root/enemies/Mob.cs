@@ -8,16 +8,20 @@ public partial class Mob : RigidBody2D
 	
 	private Vector2 UpdatedPlayerPosition;
 	
+	[Export]
+	public Vector2 MOB_SPEED = new Vector2(250, 0);
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
-		// selecting animations randomly(?? TO DO)
-		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		string[] mobTypes = animatedSprite2D.SpriteFrames.GetAnimationNames();
-		animatedSprite2D.Play(mobTypes[GD.Randi() % mobTypes.Length]);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta) {
+		//setDirection();
+		this.Rotation = 0;
+	}
+	
+	public override void _IntegrateForces(PhysicsDirectBodyState2D state){
 		setDirection();
 	}
 	
@@ -35,12 +39,22 @@ public partial class Mob : RigidBody2D
 		// Get the direction as an angle in radians
 		float directionAngle = directionVector.Angle();
 		
-		// Set the mob's rotation
-		this.Rotation = directionAngle;
+		// Set the mob's rotation [removed]
+		//this.Rotation = directionAngle;
 		
 		// Choose the velocity and angle
-		var VELOCITY = new Vector2(50, 0);
-		this.LinearVelocity = VELOCITY.Rotated(directionAngle);
+		//var VELOCITY = new Vector2(250, 0);
+		this.LinearVelocity = MOB_SPEED.Rotated(directionAngle);
+		
+		//GD.Print(VELOCITY.Rotated(directionAngle).X);
+		
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		//if (VELOCITY.X != 0) {
+			animatedSprite2D.Animation = "idle";
+			animatedSprite2D.Play("idle");
+			animatedSprite2D.FlipV = false;
+			animatedSprite2D.FlipH = (MOB_SPEED.Rotated(directionAngle).X < 0);
+		//}
 	}
 	
 	// Initialise mob at a random location on the spawner

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cy4ckbfnf7ml3"
-path="res://.godot/imported/templightning.png-a907994bf7216846e6323ef1b1c39e38.ctex"
+uid="uid://dwg3vt6mqp8jx"
+path="res://.godot/imported/mapBoundaries.png-1909a65f1594cbf7c6f6a885f0554bb5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://root/art/tiles/templightning.png"
-dest_files=["res://.godot/imported/templightning.png-a907994bf7216846e6323ef1b1c39e38.ctex"]
+source_file="res://root/art/tiles/mapBoundaries.png"
+dest_files=["res://.godot/imported/mapBoundaries.png-1909a65f1594cbf7c6f6a885f0554bb5.ctex"]
 
 [params]
 

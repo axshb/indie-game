@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://root/player/Player.cs" id="1_1i552"]
 [ext_resource type="Texture2D" uid="uid://dodvy8lo1sjvq" path="res://root/player/playertemp.png" id="2_hortd"]
-[ext_resource type="Texture2D" uid="uid://wra58o16m14b" path="res://root/art/light.png" id="3_fmkx2"]
+[ext_resource type="Texture2D" uid="uid://wra58o16m14b" path="res://root/art/light.png" id="3_hpu4j"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_30lnk"]
 animations = [{
@@ -19,11 +19,12 @@ animations = [{
 size = Vector2(40, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4y8se"]
-size = Vector2(40, 40)
+size = Vector2(42, 42)
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_1i552")
-Speed = 150
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -38,11 +39,13 @@ shape = SubResource("RectangleShape2D_aj50b")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyCollisions"]
 shape = SubResource("RectangleShape2D_4y8se")
 
+[node name="DashTimer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
 [node name="PointLight2D" type="PointLight2D" parent="."]
-energy = 0.0
-range_z_min = -2048
-range_z_max = 2048
-texture = ExtResource("3_fmkx2")
-texture_scale = 2.0
+energy = 0.23
+texture = ExtResource("3_hpu4j")
+texture_scale = 1.2
 
 [connection signal="body_entered" from="EnemyCollisions" to="." method="_on_area_2d_body_entered"]
