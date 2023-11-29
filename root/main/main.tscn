@@ -24,7 +24,7 @@ offset_left = -64.0
 offset_top = -75.0
 offset_right = 1984.0
 offset_bottom = 1133.0
-color = Color(0.635294, 0.180392, 0.223529, 1)
+color = Color(0, 0, 0, 1)
 
 [node name="TileMap" parent="." instance=ExtResource("5_dbnea")]
 
@@ -47,7 +47,7 @@ update_rotation = false
 update_scale = false
 
 [node name="Camera2D2" type="Camera2D" parent="Player"]
-zoom = Vector2(1.2, 1.2)
+zoom = Vector2(1.5, 1.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 20.0
 
@@ -73,7 +73,7 @@ transform = Transform2D(1, 0, 0, 1, 575, 330)
 [node name="RunTimer" type="Timer" parent="."]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
+modulate = Color(0.501961, 0.501961, 0.501961, 1)
 color = Color(0.647059, 0.647059, 0.647059, 1)
 
 [connection signal="Hit" from="Player" to="." method="GameOver"]

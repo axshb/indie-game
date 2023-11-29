@@ -115,6 +115,7 @@ gravity_scale = 0.0
 script = ExtResource("1_cdwyc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
 position = Vector2(-127, 47)
 scale = Vector2(2.5, 2.5)
 sprite_frames = SubResource("SpriteFrames_vvga8")

@@ -1,51 +1,164 @@
-[gd_scene load_steps=7 format=3 uid="uid://brlvsjuvetxc4"]
+[gd_scene load_steps=22 format=3 uid="uid://brlvsjuvetxc4"]
 
 [ext_resource type="Script" path="res://root/player/Player.cs" id="1_1i552"]
-[ext_resource type="Texture2D" uid="uid://dodvy8lo1sjvq" path="res://root/player/playertemp.png" id="2_hortd"]
 [ext_resource type="Texture2D" uid="uid://wra58o16m14b" path="res://root/art/light.png" id="3_hpu4j"]
+[ext_resource type="Texture2D" uid="uid://hyo4idqfpshn" path="res://root/art/sprite sheets/char-sheet.png" id="3_l2xsy"]
+[ext_resource type="Script" path="res://root/states/StateMachine.cs" id="4_3a0pg"]
+[ext_resource type="Script" path="res://root/player/Idle.cs" id="5_tc1r5"]
+[ext_resource type="Script" path="res://root/player/Run.cs" id="6_adtxf"]
+[ext_resource type="Script" path="res://root/player/Dash.cs" id="7_heqeo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rd0rp"]
+atlas = ExtResource("3_l2xsy")
+region = Rect2(1792, 0, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u0dxo"]
+atlas = ExtResource("3_l2xsy")
+region = Rect2(1856, 0, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xweof"]
+atlas = ExtResource("3_l2xsy")
+region = Rect2(1920, 0, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fmm7n"]
+atlas = ExtResource("3_l2xsy")
+region = Rect2(1984, 0, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2se0c"]
+atlas = ExtResource("3_l2xsy")
+region = Rect2(2048, 0, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_owacu"]
+atlas = ExtResource("3_l2xsy")
+region = Rect2(2112, 0, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qqpqc"]
+atlas = ExtResource("3_l2xsy")
+region = Rect2(0, 0, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgxpc"]
+atlas = ExtResource("3_l2xsy")
+region = Rect2(64, 0, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l7uqy"]
+atlas = ExtResource("3_l2xsy")
+region = Rect2(128, 0, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o24gf"]
+atlas = ExtResource("3_l2xsy")
+region = Rect2(256, 0, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_05krr"]
+atlas = ExtResource("3_l2xsy")
+region = Rect2(320, 0, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7hcq"]
+atlas = ExtResource("3_l2xsy")
+region = Rect2(384, 0, 64, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eksc2"]
+atlas = ExtResource("3_l2xsy")
+region = Rect2(448, 0, 64, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_30lnk"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_hortd")
+"texture": SubResource("AtlasTexture_rd0rp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u0dxo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xweof")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fmm7n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2se0c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_owacu")
 }],
 "loop": true,
-"name": &"default",
-"speed": 5.0
+"name": &"dash2",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qqpqc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgxpc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l7uqy")
+}],
+"loop": true,
+"name": &"idle2",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o24gf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_05krr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7hcq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eksc2")
+}],
+"loop": true,
+"name": &"run2",
+"speed": 10.0
 }]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_aj50b"]
-size = Vector2(40, 40)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4y8se"]
-size = Vector2(42, 42)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_1i552")
+Speed = 375
+DashSpeedAdd = 375
 metadata/_edit_group_ = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.2, 0.2)
-sprite_frames = SubResource("SpriteFrames_30lnk")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-7, -28, 7, -28, 7, -24, 10, -24, 10, -7, 7, -7, 7, -4, 10, -3, 14, 1, 14, 20, 10, 21, 6, 28, -10, 28, -14, 20, -14, 0, -8, -4, -8, -7, -10, -7, -13, -11, -14, -21)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_aj50b")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(3.8147e-06, -9.53674e-07)
+scale = Vector2(3.5, 3.5)
+sprite_frames = SubResource("SpriteFrames_30lnk")
+animation = &"idle2"
 
 [node name="EnemyCollisions" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyCollisions"]
-shape = SubResource("RectangleShape2D_4y8se")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="EnemyCollisions"]
+polygon = PackedVector2Array(-7, -28, 7, -28, 7, -24, 10, -24, 10, -7, 7, -7, 7, -4, 10, -4, 10, 0, 14, 0, 14, 21, 10, 21, 10, 24, 7, 24, 7, 28, 4, 28, 3, 21, -4, 21, -4, 24, -7, 24, -7, 28, -11, 28, -11, 21, -14, 21, -14, 0, -10, 0, -10, -4, -7, -4, -7, -7, -10, -7, -10, -11, -14, -11, -14, -21, -11, -21, -11, -24, -7, -24)
 
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 0.3
 one_shot = true
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-energy = 0.23
+energy = 0.35
 texture = ExtResource("3_hpu4j")
-texture_scale = 1.2
+texture_scale = 1.5
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("4_3a0pg")
+InitialState = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("5_tc1r5")
+
+[node name="Run" type="Node" parent="StateMachine"]
+script = ExtResource("6_adtxf")
+
+[node name="Dash" type="Node" parent="StateMachine"]
+script = ExtResource("7_heqeo")
 
 [connection signal="body_entered" from="EnemyCollisions" to="." method="_on_area_2d_body_entered"]

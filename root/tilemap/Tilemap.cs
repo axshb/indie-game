@@ -4,9 +4,11 @@ using Godot.Collections;
 using System.Collections.Generic;
 
 public partial class Tilemap : TileMap
-{
-	private int WIDTH = 400;
-	private int HEIGHT = 200;
+{	
+	[Export]
+	public int WIDTH = 400;
+	[Export]
+	public int HEIGHT = 200;
 	
 	private const int ISLAND_SIZE = 20;
 	private const int ITERATIONS = 5;
@@ -20,6 +22,7 @@ public partial class Tilemap : TileMap
 	{
 		GenerateBaseMap();
 		PlaceIslandTiles();
+		GenerateInnerWalls();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -38,82 +41,53 @@ public partial class Tilemap : TileMap
 				
 				// If the tile is a map boundary
 				if (x == 0 || y == 0 || x == WIDTH - 1 || y == HEIGHT - 1){
-					
-					// If loop is at the top boundary
-					if (y == 0){
-						
-						// Alternating tiles since there are 2 variations
-						if (x%2 != 0){
-							SetCell(0, coords, BORDER_ID, new Vector2I(1, 0));
-						} else if (x%2 == 0 && x != 0){
-							SetCell(0, coords, BORDER_ID, new Vector2I(2, 0));
-						}
-					
-					// If loop is at the bottom boundary
-					} else if (y == HEIGHT - 1){
-						// Alternating tiles since there are 2 variations
-						if (x%2 != 0){
-							SetCell(0, coords, BORDER_ID, new Vector2I(1, 3));
-						} else if (x%2 == 0 && x != 0){
-							SetCell(0, coords, BORDER_ID, new Vector2I(2, 3));
-						}
-						
-					// If loop is at the left boundary
-					} else if (x == 0){
-						
-						// Alternating tiles since there are 2 variations
-						if (y%2 != 0){
-							SetCell(0, coords, BORDER_ID, new Vector2I(0, 1));
-						} else if (y%2 == 0 && y != 0){
-							SetCell(0, coords, BORDER_ID, new Vector2I(0, 2));
-						}
-					
-					// If loop is at the right boundary
-					} else if (x == WIDTH - 1){
-						
-						// Alternating tiles since there are 2 variations
-						if (y%2 != 0){
-							SetCell(0, coords, BORDER_ID, new Vector2I(3, 1));
-						} else if (y%2 == 0 && y != 0){
-							SetCell(0, coords, BORDER_ID, new Vector2I(3, 2));
-						}
-					}
+					int varX = rand.Next(x - 2, x + 2);
+					int varY = rand.Next(y - 2, y + 2);
+					SetCell(5, new Vector2I(varX, varY), 3, new Vector2I(0,0));
 					
 				// If the tile is not a map boundary 
 				} else{
 					SetCell(0, coords, GROUND_ID, new Vector2I(4,0));
 					PlaceLitter(x, y);
 				}
-				
-				// Filling in corners of the map boundary
-				if (x == 0 && y == 0){
-					SetCell(0, coords, BORDER_ID, new Vector2I(0,0));
-				}
-				
-				if (x == WIDTH - 1 && y == 0){
-					SetCell(0, coords, BORDER_ID, new Vector2I(3,0));
-				}
-				
-				if (x == 0 && y == HEIGHT - 1){
-					SetCell(0, coords, BORDER_ID, new Vector2I(0, 3));
-				}
-				
-				if (x == WIDTH - 1 && y == HEIGHT - 1){
-					SetCell(0, coords, BORDER_ID, new Vector2I(3, 3));
-				}
 			}
 		}
 	}
 	
+	// Generating inner walls
+	private void GenerateInnerWalls(){
+		Random rand = new Random();
+		for (int y = 0; y < HEIGHT; y++){
+			for (int x = 0; x < WIDTH; x++){
+				
+				Vector2I coords = new Vector2I (x, y); // placement coords
+				int GAP_WIDTH = 10;
+				
+				if ((x == y || y == WIDTH - x - 1)){
+					if (y < HEIGHT / 2 - GAP_WIDTH / 2 || y > HEIGHT / 2 + GAP_WIDTH / 2){
+						
+						int varX = rand.Next(x - 2, x + 2);
+						int varY = rand.Next(y - 2, y + 2);
+						SetCell(5, new Vector2I(varX, varY), 3, new Vector2I(0,0));
+					}
+					
+				}
+				
+			}
+		} 
+	}
+	
+	// Placing debris
 	private void PlaceLitter(int x, int y){
 		Random rand = new Random();
 		int index = rand.Next(5, 9);
-		if (rand.Next(0, 100) < 10){
+		if (rand.Next(0, 100) < 7){
 			Vector2I coords = new Vector2I(x, y);
-			SetCell(0, coords, GROUND_ID, new Vector2I(index, 0));
+			SetCell(3, coords, GROUND_ID, new Vector2I(index, 0));
 		}
 	}
 	
+	// Main method to create elevated islands
 	private bool[,] GenerateIslandArray(){
 		bool[,] islandArray = InitArray();
 		for (int i = 0; i < ITERATIONS; i++){
@@ -123,6 +97,7 @@ public partial class Tilemap : TileMap
 		return islandArray;
 	}
 	
+	// Initializing the boolean array to store island
 	private bool[,] InitArray(){
 		
 		bool[,] newIslandArray = new bool[ISLAND_SIZE, ISLAND_SIZE];
@@ -137,6 +112,7 @@ public partial class Tilemap : TileMap
 		return newIslandArray; 
 	}
 	
+	// Uses cellular automaton to generate island
 	private bool[,] SimulateIsland(bool[,] currentArray){
 		
 		int width = currentArray.GetLength(0);
@@ -158,6 +134,7 @@ public partial class Tilemap : TileMap
 		return newIslandArray;
 	}
 	
+	// Helper method
 	private int CountNeighbors(bool[,] array, int x, int y){
 		int count = 0;
 		for (int i = x - 1; i <= x + 1; i++){
@@ -175,6 +152,7 @@ public partial class Tilemap : TileMap
 		return count;
 	}
 	
+	// Postprocessing to ensure that there are no "holes" in the island, called after generation
 	private bool[,] FillIslandGaps(bool[,] array){
 		
 		int width = array.GetLength(0);
@@ -194,16 +172,11 @@ public partial class Tilemap : TileMap
 		return array;
 	}
 	
+	// Places generate islands in a grid like pattern across the map
 	private void PlaceIslandTiles(){
 		
-		Random rand = new Random();
-		int locX = rand.Next(WIDTH - ISLAND_SIZE);
-		locX = 0;
-		int locY = rand.Next(HEIGHT - ISLAND_SIZE);
-		locY = 0;
-		
-		for (locX = 0; locX < WIDTH; locX += ISLAND_SIZE){
-			for (locY = 0; locY < HEIGHT; locY += ISLAND_SIZE){
+		for (int locX = 0; locX < WIDTH; locX += ISLAND_SIZE){
+			for (int locY = 0; locY < HEIGHT; locY += ISLAND_SIZE){
 				bool[,] islandArray = GenerateIslandArray();
 				for (int y = 0; y < ISLAND_SIZE; y++){
 					for (int x = 0; x < ISLAND_SIZE; x++){
@@ -212,11 +185,12 @@ public partial class Tilemap : TileMap
 						}
 					}
 				}
-				PlaceIslandShadows(islandArray, locX, locY);	
+				PlaceIslandShadows(islandArray, locX, locY);
 			}
 		}
 	}
 	
+	// Places shadow tiles around the tiles placed above to create depth
 	private void PlaceIslandShadows(bool[,] islandArray, int locX, int locY){
 		
 		for (int x = 0; x < ISLAND_SIZE; x++){
@@ -250,6 +224,5 @@ public partial class Tilemap : TileMap
 				}
 			}
 		}
-		
 	}
 }

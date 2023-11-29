@@ -9,7 +9,7 @@ public partial class Mob : RigidBody2D
 	private Vector2 UpdatedPlayerPosition;
 	
 	[Export]
-	public Vector2 MOB_SPEED = new Vector2(250, 0);
+	public Vector2 MOB_SPEED = new Vector2(275, 0);
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
