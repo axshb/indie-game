@@ -1,7 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://j3vc31ypbekj"]
+[gd_scene load_steps=21 format=3 uid="uid://j3vc31ypbekj"]
 
 [ext_resource type="Script" path="res://root/enemies/Mob.cs" id="1_cdwyc"]
 [ext_resource type="Texture2D" uid="uid://dxltxdjbq0oa" path="res://root/art/sprite sheets/dagger bot.png" id="2_pxbol"]
+[ext_resource type="Script" path="res://root/states/StateMachine.cs" id="3_7rvnw"]
+[ext_resource type="Script" path="res://root/enemies/Move.cs" id="4_hv8yn"]
+[ext_resource type="Texture2D" uid="uid://beald74r3d2ic" path="res://root/art/mixLight.png" id="5_8gnt2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_onmc8"]
 atlas = ExtResource("2_pxbol")
@@ -110,8 +113,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1hih"]
 size = Vector2(43, 43)
 
-[node name="Mob" type="RigidBody2D" groups=["mobs"]]
-gravity_scale = 0.0
+[node name="Mob" type="CharacterBody2D" groups=["mobs"]]
 script = ExtResource("1_cdwyc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -127,3 +129,15 @@ shape = SubResource("RectangleShape2D_p1hih")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-22, 23, -22, 13, -24, 13, -24, 6, -22, 6, -22, 0, -19, 0, -19, -4, -17, -4, -17, -11, -7, -20, -7, -27, 0, -31, 12, -32, 30, -19, 30, -3, 28, 0, 18, 2, 36, 16, 35, 21, 23, 15, 23, 23, 21, 23, 21, 18, 13, 18, 13, 20, -9, 20, -10, 18, -15, 18, -15, 20, -21, 23)
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_7rvnw")
+InitialState = NodePath("Move")
+
+[node name="Move" type="Node" parent="StateMachine"]
+script = ExtResource("4_hv8yn")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+blend_mode = 2
+texture = ExtResource("5_8gnt2")
+texture_scale = 1.5
